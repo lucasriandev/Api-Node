@@ -58,7 +58,24 @@ function App() {
     }
   }
 
-  function excluirContato() {}
+  function excluirContato(idContato) {
+    fetch(`http://localhost:3000/contatos/${idContato}`, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .then(() => {
+        setNome("");
+        setTelefone("");
+        setiD(null);
+        buscarContatos();
+      });
+  }
+
+  function prepararEdicao(novoContato) {
+    setNome(novoContato.nome);
+    setTelefone(novoContato.telefone);
+    setiD(novoContato.id);
+  }
 
   return (
     <div>
@@ -81,8 +98,8 @@ function App() {
         {contatos.map((item) => (
           <li key={item.id}>
             {item.nome} - {item.telefone}
-            <button>Editar</button>
-            <button>Excluir</button>
+            <button onClick={() => prepararEdicao(item)}>Editar</button>
+            <button onClick={() => excluirContato(item.id)}>Excluir</button>
           </li>
         ))}
       </ul>
