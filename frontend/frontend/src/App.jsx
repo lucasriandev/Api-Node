@@ -78,28 +78,43 @@ function App() {
   }
 
   return (
-    <div>
-      <h1>Api Node</h1>
-      <input
-        type="text"
-        placeholder="Digite seu nome!"
-        value={nome}
-        onChange={(e) => setNome(e.target.value)}
-      />
-      <input
-        type="number"
-        placeholder="Digite seu telefone"
-        value={telefone}
-        onChange={(e) => setTelefone(e.target.value)}
-      />{" "}
-      <br></br>
-      <button onClick={salvarContatos}>Salvar</button>
+    <div className="app-container">
+      <h1>📞 Meus Contatos</h1>
+      <div className="form-group">
+        <input
+          type="text"
+          placeholder="Digite seu nome!"
+          value={nome}
+          onChange={(e) => setNome(e.target.value)}
+        />
+        <input
+          type="number"
+          placeholder="Digite seu telefone"
+          value={telefone}
+          onChange={(e) => setTelefone(e.target.value)}
+        />{" "}
+        <button className="btn-save" onClick={salvarContatos}>
+          {id ? "Atualizar Contato" : "Salvar Contato"}
+        </button>
+      </div>
       <ul>
         {contatos.map((item) => (
           <li key={item.id}>
-            {item.nome} - {item.telefone}
-            <button onClick={() => prepararEdicao(item)}>Editar</button>
-            <button onClick={() => excluirContato(item.id)}>Excluir</button>
+            <div className="contact-info">
+              <span className="contact-name">{item.nome}</span>
+              <span className="contact-phone">{item.telefone}</span>
+            </div>
+            <div className="actions">
+              <button className="btn-edit" onClick={() => prepararEdicao(item)}>
+                Editar
+              </button>
+              <button
+                className="btn-delete"
+                onClick={() => excluirContato(item.id)}
+              >
+                Excluir
+              </button>
+            </div>
           </li>
         ))}
       </ul>
