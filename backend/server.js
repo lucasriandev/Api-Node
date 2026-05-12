@@ -1,5 +1,5 @@
 const http = require("http");
-let contatos = [{ nome: "Lucas" }, { nome: "Maria" }, { nome: "Joao" }];
+let contatos = [];
 
 const servidor = http.createServer((req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
