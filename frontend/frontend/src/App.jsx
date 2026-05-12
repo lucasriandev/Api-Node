@@ -8,6 +8,10 @@ function App() {
   const [id, setiD] = useState(null);
 
   useEffect(() => {
+    buscarContatos();
+  }, []);
+
+  function buscarContatos() {
     fetch(`http://localhost:3000/contatos`)
       .then((resp) => resp.json())
       .then((dados) => {
@@ -17,7 +21,44 @@ function App() {
       .catch((error) => {
         console.log(error, "errooo");
       });
-  }, []);
+  }
+
+  function salvarContatos() {
+    const novoContato = {
+      nome: nome,
+      telefone: telefone,
+    };
+
+    if (id) {
+      fetch(`http://localhost:3000/contatos/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(novoContato),
+      })
+        .then((resp) => resp.json())
+        .then(() => {
+          setNome("");
+          setTelefone("");
+          setiD(null);
+          buscarContatos();
+        });
+    } else {
+      fetch(`http://localhost:3000/contatos`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(novoContato),
+      })
+        .then((res) => res.json())
+        .then(() => {
+          setNome("");
+          setTelefone("");
+          setiD(null);
+          buscarContatos();
+        });
+    }
+  }
+
+  function excluirContato() {}
 
   return (
     <div>
@@ -35,7 +76,7 @@ function App() {
         onChange={(e) => setTelefone(e.target.value)}
       />{" "}
       <br></br>
-      <button>Salvar</button>
+      <button onClick={salvarContatos}>Salvar</button>
       <ul>
         {contatos.map((item) => (
           <li key={item.id}>
